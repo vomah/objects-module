@@ -117,7 +117,7 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
                 ->addColumn(
                     'entity_id',
                     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                    null,
+                    10,
                     [
                         'identity' => true,
                         'nullable' => false,
@@ -170,7 +170,12 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
                     'entity_id',
                     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
                     10,
-                    [],
+                    [
+                        'identity' => true,
+                        'nullable' => false,
+                        'primary'  => true,
+                        'unsigned' => true,
+                    ],
                     'Object Id'
                 )
                 ->addColumn(
@@ -179,6 +184,20 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
                     10,
                     [],
                     'Category Id'
+                )
+                ->addColumn(
+                    'object_id',
+                    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                    10,
+                    [],
+                    'Object Id'
+                )
+                ->addColumn(
+                    'sort_order',
+                    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                    10,
+                    [],
+                    'Sort Order'
                 )
                 ->setComment('Object To Category Linkage Table');
 

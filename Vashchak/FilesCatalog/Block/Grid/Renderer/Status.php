@@ -8,8 +8,8 @@ namespace Vashchak\FilesCatalog\Block\Grid\Renderer;
  */
 class Status extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
-    const STATUS_NEW = 'New';
-    const STATUS_PROCESSED = 'Processed';
+    const STATUS_ENABLED = 'Enabled';
+    const STATUS_DISABLED = 'Disabled';
 
     /**
      * Renders grid column
@@ -19,7 +19,7 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
      */
     public function render(\Magento\Framework\DataObject $row)
     {
-        $status = !(int)$row->getStatus() ? self::STATUS_NEW : self::STATUS_PROCESSED;
+        $status = !(int)$row->getStatus() ? self::STATUS_ENABLED : self::STATUS_DISABLED;
         return '<span>' . $status . '</span>';
     }
 }

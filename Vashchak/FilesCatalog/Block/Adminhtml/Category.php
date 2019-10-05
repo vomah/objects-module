@@ -3,16 +3,16 @@
 namespace Vashchak\FilesCatalog\Block\Adminhtml;
 
 /**
- * Class Request
+ * Class Category
  * @package Vashchak\FilesCatalog\Block\Adminhtml
  */
-class Request extends \Magento\Backend\Block\Widget\Grid\Container
+class Category extends \Magento\Backend\Block\Widget\Tree
 {
     protected function _construct()
     {
-        $this->_controller = 'adminhtml_request';
+        $this->_controller = 'adminhtml_object';
         $this->_blockGroup = 'Vashchak_FilesCatalog';
-        $this->_headerText = __('Requests');
+        $this->_headerText = __('Objects');
         $this->_addButtonLabel = __('Add');
         parent::_construct();
         $this->removeButton('add');

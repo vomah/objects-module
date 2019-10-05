@@ -3,13 +3,13 @@
 namespace Vashchak\FilesCatalog\Model\ResourceModel;
 
 /**
- * Class Request
+ * Class Object
  * @package Vashchak\FilesCatalog\Model\ResourceModel
  */
-class Request extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
+class Object extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
     /**
-     * Request constructor.
+     * Object constructor.
      *
      * @param \Magento\Framework\Model\ResourceModel\Db\Context $context
      */
@@ -21,6 +21,6 @@ class Request extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 
     protected function _construct()
     {
-        $this->_init('vashchak_files_catalog', 'request_id');
+        $this->_init('vashchak_files_catalog', 'entity_id');
     }
 }

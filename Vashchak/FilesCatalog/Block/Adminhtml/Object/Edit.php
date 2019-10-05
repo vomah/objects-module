@@ -1,10 +1,10 @@
 <?php
 
-namespace Vashchak\FilesCatalog\Block\Adminhtml\Request;
+namespace Vashchak\FilesCatalog\Block\Adminhtml\Object;
 
 /**
  * Class Edit
- * @package Vashchak\FilesCatalog\Block\Adminhtml\Request
+ * @package Vashchak\FilesCatalog\Block\Adminhtml\Object
  */
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
@@ -34,10 +34,10 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
     protected function _construct()
     {
-        $this->_objectId = 'request_id';
+        $this->_objectId = 'entity_id';
         $this->_blockGroup = 'Vashchak_FilesCatalog';
-        $this->_controller = 'adminhtml_request';
-        $this->_headerText = __('Edit Request');
+        $this->_controller = 'adminhtml_object';
+        $this->_headerText = __('Edit Object');
         parent::_construct();
 
         $this->prepareButtons();
@@ -46,51 +46,33 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
     protected function prepareButtons()
     {
-        if ($this->_isAllowedAction('Vashchak_FilesCatalog::save_request')) {
+        if ($this->_isAllowedAction('Vashchak_FilesCatalog::save_object')) {
             $this->buttonList->update('save', 'label', __('Save'));
         } else {
             $this->buttonList->remove('save');
         }
 
-        if ($this->_isAllowedAction('Vashchak_FilesCatalog::delete_request')) {
+        if ($this->_isAllowedAction('Vashchak_FilesCatalog::delete_object')) {
             $this->buttonList->update('delete', 'label', __('Delete'));
         } else {
             $this->buttonList->remove('delete');
         }
 
         $this->buttonList->remove('reset');
-
-        $this->buttonList->add(
-          'reply',
-          [
-            'label' => __('Reply to client'),
-            'class' => 'save',
-            'data_attribute' => [
-              'mage-init' => [
-                'button' => [
-                  'event' => 'saveAndContinueEdit',
-                  'target' => '#edit_form'
-                ],
-              ],
-              // 'form-role' => 'save',
-            ]
-          ],
-          80
-        );
     }
 
     protected function registerModel()
     {
-        $id = $this->getRequest()->getParam('request_id');
-        /** @var \Vashchak\FilesCatalog\Model\Request $model */
+        $id = $this->getRequest()->getParam('entity_id');
+        /** @var \Vashchak\FilesCatalog\Model\Object $model */
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $model = $objectManager->create('Vashchak\FilesCatalog\Model\Request');
+        $model = $objectManager->create('Vashchak\FilesCatalog\Model\Object');
 
         if ($id) {
             $model->load($id);
         }
 
-        $this->_coreRegistry->register('vashchak_filescatalog_request', $model);
+        $this->_coreRegistry->register('vashchak_filescatalog_object', $model);
     }
 
     /**
@@ -108,7 +90,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getModel()
     {
-        return $this->_coreRegistry->registry('vashchak_filescatalog_request');
+        return $this->_coreRegistry->registry('vashchak_filescatalog_object');
     }
 
     /**

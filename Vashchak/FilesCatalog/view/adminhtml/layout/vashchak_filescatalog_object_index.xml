@@ -3,29 +3,29 @@
   <update handle="styles"/>
   <body>
     <referenceContainer name="content">
-      <block class="Vashchak\FilesCatalog\Block\Adminhtml\Request" name="vashchak_request_grid">
-        <block class="Magento\Backend\Block\Widget\Grid" name="vashchak_request_grid.grid" as="grid">
+      <block class="Vashchak\FilesCatalog\Block\Adminhtml\Object" name="vashchak_object_grid">
+        <block class="Magento\Backend\Block\Widget\Grid" name="vashchak_object_grid.grid" as="grid">
           <arguments>
-            <argument name="id" xsi:type="string">request_id</argument>
-            <argument name="dataSource" xsi:type="object">Vashchak\FilesCatalog\Model\ResourceModel\Request\Collection</argument>
+            <argument name="id" xsi:type="string">entity_id</argument>
+            <argument name="dataSource" xsi:type="object">Vashchak\FilesCatalog\Model\ResourceModel\Object\Collection</argument>
             <argument name="default_sort" xsi:type="string">id</argument>
             <argument name="default_dir" xsi:type="string">ASC</argument>
             <argument name="save_parameters_in_session" xsi:type="string">1</argument>
           </arguments>
 
-          <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" name="vashchak_request_grid.grid.columnSet" as="grid.columnSet">
+          <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" name="vashchak_object_grid.grid.columnSet" as="grid.columnSet">
             <arguments>
               <argument name="rowUrl" xsi:type="array">
                 <item name="path" xsi:type="string">*/*/edit</item>
                 <item name="extraParamsTemplate" xsi:type="array">
-                  <item name="request_id" xsi:type="string">getId</item>
+                  <item name="entity_id" xsi:type="string">getId</item>
                 </item>
               </argument>
             </arguments>
-            <block class="Magento\Backend\Block\Widget\Grid\Column" as="request_id">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="entity_id">
               <arguments>
                 <argument name="header" xsi:type="string" translate="true">ID</argument>
-                <argument name="index" xsi:type="string">request_id</argument>
+                <argument name="index" xsi:type="string">entity_id</argument>
                 <argument name="type" xsi:type="string">number</argument>
                 <argument name="column_css_class" xsi:type="string">col-index</argument>
                 <argument name="header_css_class" xsi:type="string">col-index</argument>
@@ -41,28 +41,19 @@
                 <argument name="header_css_class" xsi:type="string">col-id</argument>
               </arguments>
             </block>
-            <block class="Magento\Backend\Block\Widget\Grid\Column" as="email">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="title">
               <arguments>
-                <argument name="header" xsi:type="string" translate="true">Email</argument>
-                <argument name="index" xsi:type="string">email</argument>
+                <argument name="header" xsi:type="string" translate="true">Title</argument>
+                <argument name="index" xsi:type="string">title</argument>
                 <argument name="type" xsi:type="string">text</argument>
                 <argument name="column_css_class" xsi:type="string">col-id</argument>
                 <argument name="header_css_class" xsi:type="string">col-id</argument>
               </arguments>
             </block>
-            <block class="Magento\Backend\Block\Widget\Grid\Column" as="name">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="description">
               <arguments>
-                <argument name="header" xsi:type="string" translate="true">Name</argument>
-                <argument name="index" xsi:type="string">name</argument>
-                <argument name="type" xsi:type="string">text</argument>
-                <argument name="column_css_class" xsi:type="string">col-id</argument>
-                <argument name="header_css_class" xsi:type="string">col-id</argument>
-              </arguments>
-            </block>
-            <block class="Magento\Backend\Block\Widget\Grid\Column" as="phone">
-              <arguments>
-                <argument name="header" xsi:type="string" translate="true">Phone</argument>
-                <argument name="index" xsi:type="string">phone</argument>
+                <argument name="header" xsi:type="string" translate="true">Description</argument>
+                <argument name="index" xsi:type="string">description</argument>
                 <argument name="type" xsi:type="string">text</argument>
                 <argument name="column_css_class" xsi:type="string">col-id</argument>
                 <argument name="header_css_class" xsi:type="string">col-id</argument>
