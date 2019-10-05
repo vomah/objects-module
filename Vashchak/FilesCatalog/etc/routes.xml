@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+
+  <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <router id="standard">
+      <route id="vashchak_filescatalog" frontName="vashchak_filescatalog">
+        <module name="Vashchak_FilesCatalog" before="Magento_Contact" />
+      </route>
+    </router>
+  </config>
+</config>

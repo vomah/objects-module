@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+  <menu>
+    <add id="Vashchak_FilesCatalog::filescatalog" title="Categories" module="Vashchak_FilesCatalog" sortOrder="51" resource="Vashchak_FilesCatalog::filescatalog"/>
+    <add id="Vashchak_FilesCatalog::object" title="Manage Objects" module="Vashchak_FilesCatalog" sortOrder="10" action="vashchak_filescatalog/object" resource="Vashchak_FilesCatalog::object" parent="Vashchak_FilesCatalog::filescatalog"/>
+  </menu>
+</config>
