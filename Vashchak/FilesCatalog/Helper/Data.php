@@ -19,7 +19,7 @@ class Data extends AbstractHelper
 
     public function getGeneralConfig($code, $storeId = null)
     {
-        return $this->getConfigValue(self::XML_PATH_FILESCATALOG .'general/'. $code, $storeId);
+        return $this->getConfigValue(self::XML_PATH_FILESCATALOG . 'general/' . $code, $storeId);
     }
 
 }

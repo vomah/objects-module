@@ -13,8 +13,15 @@ class Object extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_controller = 'adminhtml_object';
         $this->_blockGroup = 'Vashchak_FilesCatalog';
         $this->_headerText = __('Objects');
-        $this->_addButtonLabel = __('Add');
+        $this->_addButtonLabel = __('Add Object');
         parent::_construct();
-        $this->removeButton('add');
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreateUrl()
+    {
+        return $this->getUrl('*/*/edit');
     }
 }

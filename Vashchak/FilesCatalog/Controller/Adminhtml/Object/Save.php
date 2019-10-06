@@ -44,13 +44,14 @@ class Save extends \Magento\Framework\App\Action\Action
             return $resultRedirect->setPath('*/*/');
         }
 
-        $status = $this->getRequest()->getParam('status');
-
         if (!$this->getRequest()->getParam('back')) {
             $this->messageManager->addSuccess(__('You saved the Object.'));
         }
 
-        $model->setStatus($status);
+        $model->setTitle($this->getRequest()->getParam('title'));
+        $model->setDescription($this->getRequest()->getParam('description'));
+        $model->setKeywords($this->getRequest()->getParam('keywords'));
+        $model->setStatus($this->getRequest()->getParam('status'));
         $model->save();
 
         $redirect = $resultRedirect->setPath(

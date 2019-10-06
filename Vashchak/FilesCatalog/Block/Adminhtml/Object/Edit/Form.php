@@ -94,20 +94,8 @@ class Form extends Generic
         );
 
         $fieldset->addField(
-            'created_at',
-            'label',
-            ['name' => 'created_at', 'label' => __('Created At'), 'title' => __('Created At')]
-        );
-
-        $fieldset->addField(
-            'updated_at',
-            'label',
-            ['name' => 'updated_at', 'label' => __('Updated At'), 'title' => __('Updated At')]
-        );
-
-        $fieldset->addField(
             'title',
-            'label',
+            'text',
             ['name' => 'title', 'label' => __('Title'), 'title' => __('Title'), 'required' => true,]
         );
 
@@ -125,6 +113,24 @@ class Form extends Generic
                 'label' => __('Keywords'),
                 'title' => __('Keywords'),
             ]
+        );
+
+        $fieldset->addField(
+            'files_upload',
+            'file',
+            ['name' => 'created_at', 'label' => __('Created At'), 'title' => __('Created At')]
+        );
+
+        $fieldset->addField(
+            'created_at',
+            'label',
+            ['name' => 'created_at', 'label' => __('Created At'), 'title' => __('Created At')]
+        );
+
+        $fieldset->addField(
+            'updated_at',
+            'label',
+            ['name' => 'updated_at', 'label' => __('Updated At'), 'title' => __('Updated At')]
         );
 
         $form->setValues($model->getData());

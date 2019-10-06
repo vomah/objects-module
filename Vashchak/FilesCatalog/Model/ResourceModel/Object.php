@@ -21,6 +21,6 @@ class Object extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 
     protected function _construct()
     {
-        $this->_init('vashchak_files_catalog', 'entity_id');
+        $this->_init('vashchak_files_catalog_object', 'entity_id');
     }
 }
