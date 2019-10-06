@@ -117,7 +117,7 @@ class Form extends Generic
 
         $fieldset->addField(
             'images_upload',
-            'fileUploader',
+            'image',
             ['name' => 'image', 'label' => __('Images'), 'title' => __('Images')]
         );
 
