@@ -116,9 +116,9 @@ class Form extends Generic
         );
 
         $fieldset->addField(
-            'files_upload',
-            'file',
-            ['name' => 'created_at', 'label' => __('Created At'), 'title' => __('Created At')]
+            'images_upload',
+            'fileUploader',
+            ['name' => 'image', 'label' => __('Images'), 'title' => __('Images')]
         );
 
         $fieldset->addField(
