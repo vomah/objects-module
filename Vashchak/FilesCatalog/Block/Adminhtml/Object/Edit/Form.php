@@ -99,11 +99,14 @@ class Form extends Generic
             ['name' => 'title', 'label' => __('Title'), 'title' => __('Title'), 'required' => true,]
         );
 
-        $fieldset->addField(
-            'description',
-            'text',
-            ['name' => 'description', 'label' => __('Description'), 'title' => __('Description')]
-        );
+        $fieldset->addField('description', 'editor', array(
+            'name'      => 'description',
+            'label'     => __('Description'),
+            'title'     => __('Description'),
+            'style'     => 'height: 300px;',
+            'wysiwyg'   => true,
+            'required'  => false,
+        ));
 
         $fieldset->addField(
             'keywords',
