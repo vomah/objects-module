@@ -1,12 +1,12 @@
 <?php
 namespace Vashchak\FilesCatalog\Block;
 
-class Object extends AbstractBlock
+class Category extends AbstractBlock
 {
     /**
-     * @var \Vashchak\FilesCatalog\Model\ResourceModel\Category\Collection
+     * @var \Vashchak\FilesCatalog\Model\ResourceModel\Object\Collection
      */
-    protected $_categoryFactory;
+    protected $_objectFactory;
 
     /**
      * Object constructor.
@@ -22,8 +22,8 @@ class Object extends AbstractBlock
         \Vashchak\FilesCatalog\Model\ResourceModel\Category\CollectionFactory $categoryFactory,
         \Vashchak\FilesCatalog\Model\ResourceModel\ObjectCategory\CollectionFactory $objectCategoryFactory
     ) {
-        $this->_mainFactory = $objectFactory;
-        $this->_categoryFactory = $categoryFactory;
+        $this->_objectFactory = $objectFactory;
+        $this->_mainFactory = $categoryFactory;
         $this->_objectCategoryFactory = $objectCategoryFactory;
         parent::__construct($context);
     }
@@ -35,13 +35,6 @@ class Object extends AbstractBlock
     {
         $result = '';
 
-        if ($categories = $this->loadCategories()) {
-            if ($categoryId = $categories->getFirstItem()->getCategoryId()) {
-                $category = $this->getModelByCollection($this->_categoryFactory, 'entity_id', $categoryId);
-                $result = !$category->isEmpty() ? $category->getTitle() . ' > ' : '';
-            }
-        }
-
         $result .= $this->getModel()->getTitle();
 
         return $result;
@@ -50,25 +43,42 @@ class Object extends AbstractBlock
     /**
      * @return \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
      */
-    public function loadCategories()
+    public function getObjects()
     {
-        return $this->getObjectCategoryCollectionByObject();
+        return $this->getObjectCategoryCollectionByCategory();
     }
 
     /**
      * @return \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
      */
-    public function getObjectCategoryCollectionByObject()
+    public function getObjectCategoryCollectionByCategory()
     {
-        /** @var \Vashchak\FilesCatalog\Model\Object $model */
+        /** @var \Vashchak\FilesCatalog\Model\Category $model */
         $model = $this->getModel();
-
-        $collection = [];
-        if (($id = $model->getId()) && ($collection = $model->getCategories()) === null) {
-            $collection = $this->getCollection($this->_objectCategoryFactory, 'object_id', $id);
-            $model->setCategories($collection);
-        }
+        $collection = $this->getObjectCollection($model->getId());
+        $model->setObjects($collection);
 
         return $collection;
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    protected function getObjectCollection($id)
+    {
+        $objectCollection = $this->_objectCategoryFactory->create()
+            ->addFieldToSelect('*')
+            ->addFieldToFilter(
+                'category_id',
+                ['=' => $id]
+            )
+            ->join(
+                ['co' => 'vashchak_files_catalog_object'],
+                'vashchak_files_catalog_object_category.object_id = co.entity_id'
+            )
+        ;
+
+        return $objectCollection;
     }
 }

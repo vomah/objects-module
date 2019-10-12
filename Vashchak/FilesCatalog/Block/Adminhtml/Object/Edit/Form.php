@@ -87,8 +87,8 @@ class Form extends Generic
                 'name' => 'status',
                 'required' => true,
                 'options' => [
-                    '0' => __(\Vashchak\FilesCatalog\Block\Grid\Renderer\Status::STATUS_ENABLED),
-                    '1' => __(\Vashchak\FilesCatalog\Block\Grid\Renderer\Status::STATUS_DISABLED),
+                    '0' => __(\Vashchak\FilesCatalog\Block\Grid\Renderer\Status::getStatusText(0)),
+                    '1' => __(\Vashchak\FilesCatalog\Block\Grid\Renderer\Status::getStatusText(1)),
                 ]
             ]
         );
@@ -99,14 +99,18 @@ class Form extends Generic
             ['name' => 'title', 'label' => __('Title'), 'title' => __('Title'), 'required' => true,]
         );
 
-        $fieldset->addField('description', 'editor', array(
-            'name'      => 'description',
-            'label'     => __('Description'),
-            'title'     => __('Description'),
-            'style'     => 'height: 300px;',
-            'wysiwyg'   => true,
-            'required'  => false,
-        ));
+        $fieldset->addField(
+            'description',
+            'editor',
+             [
+                'name'      => 'description',
+                'label'     => __('Description'),
+                'title'     => __('Description'),
+                'style'     => 'height: 300px;',
+                'wysiwyg'   => true,
+                'required'  => false,
+            ]
+        );
 
         $fieldset->addField(
             'keywords',

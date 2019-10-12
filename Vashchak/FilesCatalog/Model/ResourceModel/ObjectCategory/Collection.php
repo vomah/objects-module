@@ -9,7 +9,7 @@ namespace Vashchak\FilesCatalog\Model\ResourceModel\ObjectCategory;
 class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
 {
     protected $_idFieldName = 'entity_id';
-    protected $_eventPrefix = 'vashchak_filescatalog_collection';
+    protected $_eventPrefix = 'vashchak_filescatalog_object_category_collection';
     protected $_eventObject = 'object_category_collection';
 
     /**

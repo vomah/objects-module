@@ -22,16 +22,12 @@ $object = $block->getModel();
 <h1><?php echo $object->getTitle(); ?></h1>
 <table>
   <tr>
-    <th class="post-id">Id</th>
-    <th class="post-name">Name</th>
-    <th>Content</th>
+    <th>Description</th>
   </tr>
     <?php
     echo '<tr>
-                    <td>'.$object->getId().'</td>
-                    <td>'.$object->getTitle().'</td>
-                    <td>'.$object->getDescription().'</td>
-                  </tr>';
+              <td>'.$object->getDescription().'</td>
+          </tr>';
     ?>
 </table>
 

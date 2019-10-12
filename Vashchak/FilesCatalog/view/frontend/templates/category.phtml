@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @var Vashchak\FilesCatalog\Block\Category $block
+ */
+$category = $block->getModel();
+
+?>
+
+<style>
+    table {  font-family: arial, sans-serif;  border-collapse: collapse;  width: 100%;  margin-top: 30px;}
+    td, th {  border: 1px solid #dddddd;  text-align: left;  padding: 8px;  }
+    tr:nth-child(even) { background-color: #dddddd; }
+    .post-id{width:2%} .post-name{width:30%}
+
+</style>
+
+<div class="breadcrumbs">
+    <?php echo $block->getBreadCrumbs(); ?>
+</div>
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+    </tr>
+    <?php
+    echo '<tr>
+              <td>'.$object->getId().'</td>
+              <td>'.$object->getTitle().'</td>
+          </tr>';
+    ?>
+</table>
+
+</body>
+</html>

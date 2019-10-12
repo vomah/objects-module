@@ -8,8 +8,19 @@ namespace Vashchak\FilesCatalog\Block\Grid\Renderer;
  */
 class Status extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
-    const STATUS_ENABLED = 'Enabled';
-    const STATUS_DISABLED = 'Disabled';
+    /**
+     * Statuses
+     */
+    const STATUS_ENABLED = 0;
+    const STATUS_DISABLED = 1;
+
+    /**
+     * @var array
+     */
+    protected static $statusesTexts = [
+        self::STATUS_ENABLED => 'Enabled',
+        self::STATUS_DISABLED => 'Disabled',
+    ];
 
     /**
      * Renders grid column
@@ -19,7 +30,15 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
      */
     public function render(\Magento\Framework\DataObject $row)
     {
-        $status = !(int)$row->getStatus() ? self::STATUS_ENABLED : self::STATUS_DISABLED;
-        return '<span>' . $status . '</span>';
+        return '<span>' . self::getStatusText($row->getStatus()) . '</span>';
+    }
+
+    /**
+     * @param int|string $status
+     * @return mixed|string
+     */
+    public static function getStatusText($status)
+    {
+        return self::$statusesTexts[(int)$status] ?? '';
     }
 }
