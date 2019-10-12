@@ -108,6 +108,11 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
         }
     }
 
+  /**
+   * @param \Magento\Framework\Setup\SchemaSetupInterface $installer
+   *
+   * @throws \Zend_Db_Exception
+   */
     protected function createCategoryTable(\Magento\Framework\Setup\SchemaSetupInterface $installer)
     {
         if (!$installer->tableExists('vashchak_files_catalog_category')) {
@@ -207,10 +212,10 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
                 $installer->getTable('vashchak_files_catalog_object_category'),
                 $installer->getIdxName(
                     $installer->getTable('vashchak_files_catalog_object_category'),
-                    ['entity_id', 'category_id'],
+                    ['object_id', 'category_id', 'sort_order',],
                     \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
                 ),
-                ['entity_id', 'category_id'],
+                ['object_id', 'category_id', 'sort_order',],
                 \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
             );
         }

@@ -10,11 +10,10 @@ class Category extends \Magento\Backend\Block\Widget\Tree
 {
     protected function _construct()
     {
-        $this->_controller = 'adminhtml_object';
+        $this->_controller = 'adminhtml_category';
         $this->_blockGroup = 'Vashchak_FilesCatalog';
-        $this->_headerText = __('Objects');
-        $this->_addButtonLabel = __('Add');
+        $this->_headerText = __('Categories');
+        $this->_addButtonLabel = __('Add Category');
         parent::_construct();
-        $this->removeButton('add');
     }
 }

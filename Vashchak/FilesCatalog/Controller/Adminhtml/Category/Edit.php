@@ -1,10 +1,10 @@
 <?php
 
-namespace Vashchak\FilesCatalog\Controller\Adminhtml\Object;
+namespace Vashchak\FilesCatalog\Controller\Adminhtml\Category;
 
 /**
  * Class Edit
- * @package Vashchak\FilesCatalog\Controller\Adminhtml\Object
+ * @package Vashchak\FilesCatalog\Controller\Adminhtml\Category
  */
 class Edit extends \Magento\Framework\App\Action\Action
 {
@@ -89,7 +89,7 @@ class Edit extends \Magento\Framework\App\Action\Action
         );
         $resultPage->getConfig()->getTitle()->prepend(__('Objects'));
         $resultPage->getConfig()->getTitle()
-          ->prepend($model->getTitle() ? 'Edit object: ' . $model->getTitle() : __('New Object'));
+          ->prepend($model->getId() ? 'Edit object: ' . $model->getId() : __('New Object'));
 
         return $resultPage;
     }

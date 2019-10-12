@@ -3,13 +3,13 @@
 namespace Vashchak\FilesCatalog\Model\ResourceModel;
 
 /**
- * Class Object
+ * Class ObjectCategory
  * @package Vashchak\FilesCatalog\Model\ResourceModel
  */
-class Object extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
+class ObjectCategory extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
     /**
-     * Object constructor.
+     * ObjectCategory constructor.
      *
      * @param \Magento\Framework\Model\ResourceModel\Db\Context $context
      */
@@ -21,6 +21,6 @@ class Object extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 
     protected function _construct()
     {
-        $this->_init('vashchak_files_catalog_object', 'entity_id');
+        $this->_init('vashchak_files_catalog_object_category', 'entity_id');
     }
 }
