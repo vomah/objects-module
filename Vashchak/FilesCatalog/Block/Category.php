@@ -67,17 +67,16 @@ class Category extends AbstractBlock
      */
     protected function getObjectCollection($id)
     {
-        $objectCollection = $this->_objectCategoryFactory->create()
-            ->addFieldToSelect('*')
-            ->addFieldToFilter(
-                'category_id',
-                ['=' => $id]
-            )
+        $objectCollection = $this->_objectCategoryFactory->create();
+        $objectCollection->addFieldToSelect('*');
+        $objectCollection->getSelect()
             ->join(
                 ['co' => 'vashchak_files_catalog_object'],
-                'vashchak_files_catalog_object_category.object_id = co.entity_id'
+                'main_table.object_id = co.entity_id',
+                []
             )
-        ;
+            ->columns('co.title')
+            ->where('main_table.category_id = ' . $id);
 
         return $objectCollection;
     }

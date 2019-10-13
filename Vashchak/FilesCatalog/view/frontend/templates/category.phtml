@@ -25,10 +25,12 @@ $category = $block->getModel();
         <th>Title</th>
     </tr>
     <?php
-    echo '<tr>
-              <td>'.$object->getId().'</td>
-              <td>'.$object->getTitle().'</td>
-          </tr>';
+    foreach ($block->getObjectCategoryCollectionByCategory() as $object) {
+        echo '<tr>
+                  <td>' . $object->getId() . '</td>
+                  <td>' . $object->getTitle() . '</td>
+              </tr>';
+    }
     ?>
 </table>
 
