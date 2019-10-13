@@ -22,11 +22,13 @@ $category = $block->getModel();
 <table>
     <tr>
         <th>Id</th>
+        <th>Image</th>
         <th>Title</th>
     </tr>
     <?php
     foreach ($block->getObjectCategoryCollectionByCategory() as $object) {
         echo '<tr>
+                  <td>' . $object->getId() . '</td>
                   <td>' . $object->getId() . '</td>
                   <td>
                       <a href="' . $block->getObjectUrl() . 'id/' . $object->getId() . '">'

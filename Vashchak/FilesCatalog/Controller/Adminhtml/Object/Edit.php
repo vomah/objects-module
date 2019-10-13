@@ -6,29 +6,8 @@ namespace Vashchak\FilesCatalog\Controller\Adminhtml\Object;
  * Class Edit
  * @package Vashchak\FilesCatalog\Controller\Adminhtml\Object
  */
-class Edit extends \Magento\Framework\App\Action\Action
+class Edit extends \Vashchak\FilesCatalog\Controller\Adminhtml\Object
 {
-    /**
-     * @var \Magento\Framework\Registry
-     */
-    protected $_coreRegistry;
-
-    protected $resultPageFactory;
-
-    /**
-     * Edit constructor.
-     *
-     * @param \Magento\Backend\App\Action\Context        $context
-     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
-     */
-    public function __construct(
-      \Magento\Backend\App\Action\Context $context,
-      \Magento\Framework\View\Result\PageFactory $resultPageFactory
-    ) {
-        $this->resultPageFactory = $resultPageFactory;
-        parent::__construct($context);
-    }
-
     /**
      * {@inheritdoc}
      */

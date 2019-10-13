@@ -6,29 +6,8 @@ namespace Vashchak\FilesCatalog\Controller\Adminhtml\Object;
  * Class Save
  * @package Vashchak\FilesCatalog\Controller\Adminhtml\Object
  */
-class Save extends \Magento\Framework\App\Action\Action
+class Save extends \Vashchak\FilesCatalog\Controller\Adminhtml\Object
 {
-    /**
-     * @var \Magento\Framework\Registry
-     */
-    protected $_coreRegistry;
-
-    protected $resultPageFactory;
-
-    /**
-     * Save constructor.
-     *
-     * @param \Magento\Backend\App\Action\Context        $context
-     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
-     */
-    public function __construct(
-      \Magento\Backend\App\Action\Context $context,
-      \Magento\Framework\View\Result\PageFactory $resultPageFactory
-    ) {
-        $this->resultPageFactory = $resultPageFactory;
-        parent::__construct($context);
-    }
-
     /**
      * Save
      *
@@ -54,31 +33,13 @@ class Save extends \Magento\Framework\App\Action\Action
         $model->setStatus($this->getRequest()->getParam('status'));
         $model->save();
 
+        $this->saveImages($model);
+
         $redirect = $resultRedirect->setPath(
           '*/*/edit',
           ['entity_id' => $model->getId(),
            '_current' => true]
         );
         return $redirect;
-    }
-
-    /**
-     * @return \Vashchak\FilesCatalog\Model\Object
-     */
-    protected function loadModel()
-    {
-        /** @var \Vashchak\FilesCatalog\Model\Object $model */
-        $model = $this->_objectManager->create('Vashchak\FilesCatalog\Model\Object');
-
-        if ($id = $this->getRequest()->getParam('entity_id')) {
-            $model->load($id);
-
-            if (!$model->getId()) {
-                $model = false;
-                $this->messageManager->addError(__('This object no longer exists.'));
-            }
-        }
-
-        return $model;
     }
 }
