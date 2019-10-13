@@ -28,7 +28,11 @@ $category = $block->getModel();
     foreach ($block->getObjectCategoryCollectionByCategory() as $object) {
         echo '<tr>
                   <td>' . $object->getId() . '</td>
-                  <td>' . $object->getTitle() . '</td>
+                  <td>
+                      <a href="' . $block->getObjectUrl() . 'id/' . $object->getId() . '">'
+                          . $object->getTitle() . '
+                      </a>
+                  </td>
               </tr>';
     }
     ?>

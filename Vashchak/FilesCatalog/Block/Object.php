@@ -9,6 +9,11 @@ class Object extends AbstractBlock
     protected $_categoryFactory;
 
     /**
+     * @var string
+     */
+    protected $_categoryUrl;
+
+    /**
      * Object constructor.
      *
      * @param \Magento\Framework\View\Element\Template\Context                            $context
@@ -25,7 +30,16 @@ class Object extends AbstractBlock
         $this->_mainFactory = $objectFactory;
         $this->_categoryFactory = $categoryFactory;
         $this->_objectCategoryFactory = $objectCategoryFactory;
+        $this->_categoryUrl = $context->getUrlBuilder()->getUrl('filescatalog/category/index');
         parent::__construct($context);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategoryUrl()
+    {
+        return $this->_categoryUrl;
     }
 
     /**

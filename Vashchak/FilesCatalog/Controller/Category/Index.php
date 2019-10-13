@@ -19,6 +19,8 @@ class Index extends \Magento\Framework\App\Action\Action
     \Magento\Framework\View\Result\PageFactory $resultPageFactory
   ) {
     parent::__construct($context);
+    $this->_resultRedirectFactory = $context->getResultRedirectFactory();
+    $this->_resultFactory = $context->getResultFactory();
     $this->_pageFactory = $resultPageFactory;
   }
 

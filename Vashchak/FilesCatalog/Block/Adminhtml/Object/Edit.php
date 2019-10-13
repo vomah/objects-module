@@ -8,6 +8,9 @@ namespace Vashchak\FilesCatalog\Block\Adminhtml\Object;
  */
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
+    /**
+     * @var \Magento\Framework\Registry
+     */
     protected $_coreRegistry;
 
     /**

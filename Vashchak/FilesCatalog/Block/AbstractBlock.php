@@ -1,7 +1,8 @@
 <?php
 namespace Vashchak\FilesCatalog\Block;
 
-use Magento\Framework\View\Element\Template;
+use \Magento\Framework\View\Element\Template;
+use \Magento\Framework\Exception\NotFoundException;
 
 class AbstractBlock extends \Magento\Framework\View\Element\Template
 {
@@ -27,6 +28,7 @@ class AbstractBlock extends \Magento\Framework\View\Element\Template
      */
     public function __construct(Template\Context $context, array $data = [])
     {
+        $this->_urlBuilder = $context->getUrlBuilder();
         parent::__construct($context, $data);
         $this->loadModel();
     }
@@ -36,15 +38,19 @@ class AbstractBlock extends \Magento\Framework\View\Element\Template
      */
     protected function loadModel()
     {
-        if ($id = $this->getRequest()->getParam('id')) {
-            $model = $this->getModelByCollection($this->_mainFactory, 'entity_id', $id);
+        try {
+            if ($id = $this->getRequest()->getParam('id')) {
+                $model = $this->getModelByCollection($this->_mainFactory, 'entity_id', $id);
 
-            if ($model->isEmpty()) {
+                if ($model->isEmpty()) {
+                    throw new NotFoundException(__('Object not found.'));
+                }
+
+                $this->_model = $model;
+            } else {
                 throw new NotFoundException(__('Object not found.'));
             }
-
-            $this->_model = $model;
-        } else {
+        } catch (\Throwable $e) {
             throw new NotFoundException(__('Object not found.'));
         }
     }

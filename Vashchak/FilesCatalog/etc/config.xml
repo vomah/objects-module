@@ -4,7 +4,7 @@
         <filescatalog>
             <general>
                 <enable>1</enable>
-                <media_path>pub/media/files_catalog/</media_path>
+                <media_path>files_catalog/</media_path>
             </general>
         </filescatalog>
     </default>
