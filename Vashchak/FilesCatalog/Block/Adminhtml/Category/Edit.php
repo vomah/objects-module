@@ -1,10 +1,10 @@
 <?php
 
-namespace Vashchak\FilesCatalog\Block\Adminhtml\Object;
+namespace Vashchak\FilesCatalog\Block\Adminhtml\Category;
 
 /**
  * Class Edit
- * @package Vashchak\FilesCatalog\Block\Adminhtml\Object
+ * @package Vashchak\FilesCatalog\Block\Adminhtml\Category
  */
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
@@ -39,8 +39,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     {
         $this->_objectId = 'entity_id';
         $this->_blockGroup = 'Vashchak_FilesCatalog';
-        $this->_controller = 'adminhtml_object';
-        $this->_headerText = __('Edit Object');
+        $this->_controller = 'adminhtml_category';
+        $this->_headerText = __('Edit Category');
         parent::_construct();
 
         $this->prepareButtons();
@@ -49,13 +49,13 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
     protected function prepareButtons()
     {
-        if ($this->_isAllowedAction('Vashchak_FilesCatalog::save_object')) {
+        if ($this->_isAllowedAction('Vashchak_FilesCatalog::save_category')) {
             $this->buttonList->update('save', 'label', __('Save'));
         } else {
             $this->buttonList->remove('save');
         }
 
-        if ($this->_isAllowedAction('Vashchak_FilesCatalog::delete_object')) {
+        if ($this->_isAllowedAction('Vashchak_FilesCatalog::delete_category')) {
             $this->buttonList->update('delete', 'label', __('Delete'));
         } else {
             $this->buttonList->remove('delete');
@@ -67,15 +67,15 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected function registerModel()
     {
         $id = $this->getRequest()->getParam('entity_id');
-        /** @var \Vashchak\FilesCatalog\Model\Object $model */
+        /** @var \Vashchak\FilesCatalog\Model\Category $model */
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $model = $objectManager->create('Vashchak\FilesCatalog\Model\Object');
+        $model = $objectManager->create('Vashchak\FilesCatalog\Model\Category');
 
         if ($id) {
             $model->load($id);
         }
 
-        $this->_coreRegistry->register('vashchak_filescatalog_object', $model);
+        $this->_coreRegistry->register('vashchak_filescatalog_category', $model);
     }
 
     /**
@@ -93,7 +93,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getModel()
     {
-        return $this->_coreRegistry->registry('vashchak_filescatalog_object');
+        return $this->_coreRegistry->registry('vashchak_filescatalog_category');
     }
 
     /**

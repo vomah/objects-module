@@ -34,7 +34,7 @@ class Edit extends \Magento\Framework\App\Action\Action
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Vashchak_FilesCatalog::save_object');
+        return $this->_authorization->isAllowed('Vashchak_FilesCatalog::save_category');
     }
 
     /**
@@ -46,9 +46,9 @@ class Edit extends \Magento\Framework\App\Action\Action
     {
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->setActiveMenu('Vashchak_FilesCatalog::object')
-          ->addBreadcrumb(__('Objects'), __('Objects'))
-          ->addBreadcrumb(__('Manage Objects'), __('Manage Objects'));
+        $resultPage->setActiveMenu('Vashchak_FilesCatalog::category')
+          ->addBreadcrumb(__('category'), __('Category'))
+          ->addBreadcrumb(__('Manage category'), __('Manage category'));
         return $resultPage;
     }
 
@@ -62,7 +62,7 @@ class Edit extends \Magento\Framework\App\Action\Action
     {
         $id = $this->getRequest()->getParam('entity_id');
         /** @var \Vashchak\FilesCatalog\Model\Object $model */
-        $model = $this->_objectManager->create('Vashchak\FilesCatalog\Model\Object');
+        $model = $this->_objectManager->create('Vashchak\FilesCatalog\Model\Category');
 
         if ($id) {
             $model->load($id);
@@ -84,12 +84,12 @@ class Edit extends \Magento\Framework\App\Action\Action
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->_initAction();
         $resultPage->addBreadcrumb(
-          $id ? __('Edit Object') : __('New Object'),
-          $id ? __('Edit Object') : __('New Object')
+          $id ? __('Edit Category') : __('New Category'),
+          $id ? __('Edit Category') : __('New Category')
         );
-        $resultPage->getConfig()->getTitle()->prepend(__('Objects'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Category'));
         $resultPage->getConfig()->getTitle()
-          ->prepend($model->getId() ? 'Edit object: ' . $model->getId() : __('New Object'));
+          ->prepend($model->getId() ? 'Edit category: ' . $model->getId() : __('New Category'));
 
         return $resultPage;
     }

@@ -1,12 +1,12 @@
 <?php
 
-namespace Vashchak\FilesCatalog\Block\Adminhtml\Object\Edit;
+namespace Vashchak\FilesCatalog\Block\Adminhtml\Category\Edit;
 
 use \Magento\Backend\Block\Widget\Form\Generic;
 
 /**
  * Class Form
- * @package Vashchak\FilesCatalog\Block\Adminhtml\Object\Edit
+ * @package Vashchak\FilesCatalog\Block\Adminhtml\Category\Edit
  */
 class Form extends Generic
 {
@@ -41,8 +41,8 @@ class Form extends Generic
     protected function _construct()
     {
         parent::_construct();
-        $this->setId('object_form');
-        $this->setTitle(__('Object Information'));
+        $this->setId('category_form');
+        $this->setTitle(__('Category Information'));
     }
 
     /**
@@ -50,7 +50,7 @@ class Form extends Generic
      */
     public function getModel()
     {
-        return $this->_coreRegistry->registry('vashchak_filescatalog_object');
+        return $this->_coreRegistry->registry('vashchak_filescatalog_category');
     }
 
     /**
@@ -67,7 +67,7 @@ class Form extends Generic
             ['data' => ['id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post']]
         );
 
-        $form->setHtmlIdPrefix('object_');
+        $form->setHtmlIdPrefix('category_');
 
         $fieldset = $form->addFieldset(
             'base_fieldset',
@@ -79,54 +79,21 @@ class Form extends Generic
         }
 
         $fieldset->addField(
-            'status',
-            'select',
-            [
-                'label' => __('Status'),
-                'title' => __('Status'),
-                'name' => 'status',
-                'required' => true,
-                'options' => [
-                    '0' => __(\Vashchak\FilesCatalog\Block\Grid\Renderer\Status::getStatusText(0)),
-                    '1' => __(\Vashchak\FilesCatalog\Block\Grid\Renderer\Status::getStatusText(1)),
-                ]
-            ]
-        );
-
-        $fieldset->addField(
             'title',
             'text',
             ['name' => 'title', 'label' => __('Title'), 'title' => __('Title'), 'required' => true,]
         );
 
         $fieldset->addField(
-            'description',
-            'editor',
+            'parent_id',
+            'text',
              [
-                'name'      => 'description',
-                'label'     => __('Description'),
-                'title'     => __('Description'),
-                'style'     => 'height: 300px;',
-                'wysiwyg'   => true,
+                'name'      => 'parent',
+                'label'     => __('Parent'),
+                'title'     => __('Parent'),
                 'required'  => false,
             ]
         );
-
-        $fieldset->addField(
-            'keywords',
-            'text',
-            [
-                'name' => 'keywords',
-                'label' => __('Keywords'),
-                'title' => __('Keywords'),
-            ]
-        );
-
-//        $fieldset->addField(
-//            'fileUploader',
-//            'image',
-//            ['name' => 'image', 'label' => __('Upload Images'), 'title' => __('Upload Images')]
-//        );
 
         $form->setValues($model->getData());
         $form->setUseContainer(true);

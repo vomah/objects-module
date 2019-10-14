@@ -30,8 +30,8 @@ class Index extends \Magento\Backend\App\Action
     public function execute()
     {
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->setActiveMenu('Vashchak_FilesCatalog::object');
-        $resultPage->getConfig()->getTitle()->prepend((__('Objects')));
+        $resultPage->setActiveMenu('Vashchak_FilesCatalog::category');
+        $resultPage->getConfig()->getTitle()->prepend((__('Categories')));
 
         return $resultPage;
     }

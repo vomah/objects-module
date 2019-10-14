@@ -8,12 +8,9 @@ namespace Vashchak\FilesCatalog\Controller\Adminhtml\Object;
  */
 class Edit extends \Vashchak\FilesCatalog\Controller\Adminhtml\Object
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function _isAllowed()
+    public function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Vashchak_FilesCatalog::save_object');
+        return $this->_authorization->isAllowed('Vashchak_FilesCatalog::edit_object');
     }
 
     /**
@@ -39,22 +36,14 @@ class Edit extends \Vashchak\FilesCatalog\Controller\Adminhtml\Object
      */
     public function execute()
     {
-        $id = $this->getRequest()->getParam('entity_id');
-        /** @var \Vashchak\FilesCatalog\Model\Object $model */
-        $model = $this->_objectManager->create('Vashchak\FilesCatalog\Model\Object');
+        /** \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
+        $resultRedirect = $this->resultRedirectFactory->create();
 
-        if ($id) {
-            $model->load($id);
-
-            if (!$model->getId()) {
-                $this->messageManager->addError(__('This object no longer exists.'));
-
-                /** \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
-                $resultRedirect = $this->resultRedirectFactory->create();
-                return $resultRedirect->setPath('*/*/');
-            }
+        if (!$model = $this->loadModel()) {
+            return $resultRedirect->setPath('*/*/');
         }
 
+        $id = $model->getId();
         $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);
         if (!empty($data)) {
             $model->setData($data);

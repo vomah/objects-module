@@ -1,3 +1,19 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
   <!--<preference for="Magento\Contact\Controller\Index\Post" type="Vashchak\FilesCatalog\Controller\Contact\Post" />-->
+
+  <virtualType name="Vashchak\FilesCatalog\ObjectImageUpload" type="Vashchak\FilesCatalog\Model\ImageUploader">
+    <arguments>
+      <argument name="allowedExtensions" xsi:type="array">
+        <item name="jpg" xsi:type="string">jpg</item>
+        <item name="jpeg" xsi:type="string">jpeg</item>
+        <item name="gif" xsi:type="string">gif</item>
+        <item name="png" xsi:type="string">png</item>
+      </argument>
+    </arguments>
+  </virtualType>
+  <type name="Vashchak\FilesCatalog\Controller\Adminhtml\Object\Upload">
+    <arguments>
+      <argument name="imageUploader" xsi:type="object">Vashchak\FilesCatalog\ObjectImageUpload</argument>
+    </arguments>
+  </type>
 </config>

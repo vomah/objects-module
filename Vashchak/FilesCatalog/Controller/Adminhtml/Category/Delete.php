@@ -40,7 +40,7 @@ class Delete extends \Magento\Framework\App\Action\Action
         $id = $this->getRequest()->getParam('entity_id');
 
         /** @var \Vashchak\FilesCatalog\Model\Object $model */
-        $model = $this->_objectManager->create('Vashchak\FilesCatalog\Model\Object');
+        $model = $this->_objectManager->create('Vashchak\FilesCatalog\Model\Category');
 
         if ($id) {
             $model->load($id);

@@ -45,13 +45,11 @@ class Save extends \Magento\Framework\App\Action\Action
         }
 
         if (!$this->getRequest()->getParam('back')) {
-            $this->messageManager->addSuccess(__('You saved the Object.'));
+            $this->messageManager->addSuccess(__('You saved the Category.'));
         }
 
         $model->setTitle($this->getRequest()->getParam('title'));
-        $model->setDescription($this->getRequest()->getParam('description'));
-        $model->setKeywords($this->getRequest()->getParam('keywords'));
-        $model->setStatus($this->getRequest()->getParam('status'));
+        $model->setTitle($this->getRequest()->getParam('parent'));
         $model->save();
 
         $redirect = $resultRedirect->setPath(
@@ -68,7 +66,7 @@ class Save extends \Magento\Framework\App\Action\Action
     protected function loadModel()
     {
         /** @var \Vashchak\FilesCatalog\Model\Object $model */
-        $model = $this->_objectManager->create('Vashchak\FilesCatalog\Model\Object');
+        $model = $this->_objectManager->create('Vashchak\FilesCatalog\Model\Category');
 
         if ($id = $this->getRequest()->getParam('entity_id')) {
             $model->load($id);
