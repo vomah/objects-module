@@ -66,13 +66,13 @@ class Object extends AbstractBlock
      */
     public function loadCategories()
     {
-        return $this->getObjectCategoryCollectionByObject();
+        return $this->getObjectCategoryCollection();
     }
 
     /**
      * @return \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
      */
-    public function getObjectCategoryCollectionByObject()
+    public function getObjectCategoryCollection()
     {
         /** @var \Vashchak\FilesCatalog\Model\Object $model */
         $model = $this->getModel();

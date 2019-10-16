@@ -9,6 +9,11 @@ namespace Vashchak\FilesCatalog\Controller\Adminhtml;
 class Object extends AbstractAdmin
 {
     /**
+     * @var string
+     */
+    protected $_objectCategoryCollectionFactoryName;
+
+    /**
      * Save constructor.
      *
      * @param \Magento\Backend\App\Action\Context        $context
@@ -20,5 +25,6 @@ class Object extends AbstractAdmin
     ) {
         parent::__construct($context, $resultPageFactory);
         $this->_collectionFactoryName = '\Vashchak\FilesCatalog\Model\ResourceModel\Object\CollectionFactory';
+        $this->_objectCategoryCollectionFactoryName = '\Vashchak\FilesCatalog\Model\ResourceModel\ObjectCategory\CollectionFactory';
     }
 }

@@ -49,7 +49,7 @@ class Save extends \Magento\Framework\App\Action\Action
         }
 
         $model->setTitle($this->getRequest()->getParam('title'));
-        $model->setTitle($this->getRequest()->getParam('parent'));
+        $model->setParentId($this->getRequest()->getParam('parent') ?: 0);
         $model->save();
 
         $redirect = $resultRedirect->setPath(

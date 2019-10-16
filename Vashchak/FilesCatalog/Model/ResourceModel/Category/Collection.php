@@ -24,4 +24,21 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
             '\Vashchak\FilesCatalog\Model\ResourceModel\Category'
         );
     }
+
+    /**
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        $options = [
+            ['value' => 0, 'label' => 'Root'],
+        ];
+
+        foreach ($this->getItems() as $item) {
+            $id = $item->getId();
+            $options[$id] = ['value' => $id, 'label' => $item->getTitle()];
+        }
+
+        return $options;
+    }
 }

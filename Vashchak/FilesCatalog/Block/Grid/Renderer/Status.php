@@ -17,7 +17,7 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
     /**
      * @var array
      */
-    protected static $statusesTexts = [
+    protected static $statuses = [
         self::STATUS_ENABLED => 'Enabled',
         self::STATUS_DISABLED => 'Disabled',
     ];
@@ -39,6 +39,14 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
      */
     public static function getStatusText($status)
     {
-        return self::$statusesTexts[(int)$status] ?? '';
+        return self::$statuses[(int)$status] ?? '';
+    }
+
+    /**
+     * @return array
+     */
+    public static function getAllStatusesArray()
+    {
+        return self::$statuses;
     }
 }

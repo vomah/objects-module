@@ -62,13 +62,15 @@ class AbstractAdmin extends \Magento\Framework\App\Action\Action
     }
 
     /**
+     * @param int $id
+     *
      * @return \Vashchak\FilesCatalog\Model\Object|bool
      */
-    protected function loadModel()
+    protected function loadModel($id = null)
     {
         $model = false;
 
-        if ($id = $this->getRequest()->getParam('entity_id')) {
+        if ($id || ($id = $this->getRequest()->getParam('entity_id'))) {
             $collection = $this->_objectManager->create($this->_collectionFactoryName);
 
             $model = $this->getModelByCollection($collection, 'entity_id', $id);

@@ -1,8 +1,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-  <!--<preference for="Magento\Contact\Controller\Index\Post" type="Vashchak\FilesCatalog\Controller\Contact\Post" />-->
-
-  <virtualType name="Vashchak\FilesCatalog\ObjectImageUpload" type="Vashchak\FilesCatalog\Model\ImageUploader">
+  <virtualType name="VashchakFilesCatalogObjectImageUploader" type="Vashchak\FilesCatalog\Model\Uploader">
     <arguments>
+      <argument name="path" xsi:type="const">Vashchak\FilesCatalog\Model\Uploader::IMAGE_PATH</argument>
       <argument name="allowedExtensions" xsi:type="array">
         <item name="jpg" xsi:type="string">jpg</item>
         <item name="jpeg" xsi:type="string">jpeg</item>
@@ -11,9 +10,53 @@
       </argument>
     </arguments>
   </virtualType>
-  <type name="Vashchak\FilesCatalog\Controller\Adminhtml\Object\Upload">
+  <type name="Vashchak\FilesCatalog\Controller\Adminhtml\Object\Image\Upload">
     <arguments>
-      <argument name="imageUploader" xsi:type="object">Vashchak\FilesCatalog\ObjectImageUpload</argument>
+      <argument name="uploader" xsi:type="object">VashchakFilesCatalogObjectImageUploader</argument>
+    </arguments>
+  </type>
+  <virtualType name="VashchakFilesCatalogObjectFileUploader" type="Vashchak\FilesCatalog\Model\Uploader">
+    <arguments>
+      <argument name="path" xsi:type="const">Vashchak\FilesCatalog\Model\Uploader::FILE_PATH</argument>
+      <argument name="allowedExtensions" xsi:type="array" />
+    </arguments>
+  </virtualType>
+  <type name="Vashchak\FilesCatalog\Controller\Adminhtml\Object\File\Upload">
+    <arguments>
+      <argument name="uploader" xsi:type="object">VashchakFilesCatalogObjectFileUploader</argument>
+    </arguments>
+  </type>
+  <type name="Vashchak\FilesCatalog\Model\UploaderPool">
+    <arguments>
+      <argument name="uploaders" xsi:type="array">
+        <item name="images" xsi:type="string">VashchakFilesCatalogObjectImageUploader</item>
+        <item name="files" xsi:type="string">VashchakFilesCatalogObjectFileUploader</item>
+      </argument>
+    </arguments>
+  </type>
+  <type name="Vashchak\FilesCatalog\Controller\Adminhtml\Object\Save">
+    <arguments>
+      <argument name="uploaderPool" xsi:type="object">Vashchak\FilesCatalog\Model\UploaderPool</argument>
+    </arguments>
+  </type>
+  <type name="Vashchak\FilesCatalog\Model\Object">
+    <arguments>
+      <argument name="uploaderPool" xsi:type="object">Vashchak\FilesCatalog\Model\UploaderPool</argument>
+    </arguments>
+  </type>
+  <type name="Vashchak\FilesCatalog\Model\Image">
+    <arguments>
+      <argument name="uploader" xsi:type="object">VashchakFilesCatalogObjectImageUploader</argument>
+    </arguments>
+  </type>
+  <virtualType name="VashchakFilesCatalogBlockObjectImageBuilder" type="Vashchak\FilesCatalog\Block\ImageBuilder">
+    <arguments>
+      <argument name="entityCode" xsi:type="string">object</argument>
+    </arguments>
+  </virtualType>
+  <type name="Vashchak\FilesCatalog\Block\Object\ViewObject">
+    <arguments>
+      <argument name="imageBuilder" xsi:type="object">VashchakFilesCatalogBlockObjectImageBuilder</argument>
     </arguments>
   </type>
 </config>

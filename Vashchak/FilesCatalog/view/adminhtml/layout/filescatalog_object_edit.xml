@@ -3,6 +3,9 @@
       xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
   <update handle="styles"/>
   <update handle="editor"/>
+  <head>
+    <css src="jquery/fileUploader/css/jquery.fileupload-ui.css"/>
+  </head>
   <body>
     <referenceContainer name="content">
       <uiComponent name="object_form"/>

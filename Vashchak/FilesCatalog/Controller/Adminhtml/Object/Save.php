@@ -2,25 +2,48 @@
 
 namespace Vashchak\FilesCatalog\Controller\Adminhtml\Object;
 
-use Magento\Backend\App\Action;
-use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\Request\DataPersistorInterface;
+use Magento\Backend\Model\Session;
+use Magento\Backend\App\Action\Context;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Reflection\DataObjectProcessor;
+use Magento\Framework\Registry;
+use Magento\Framework\Stdlib\DateTime\Filter\Date;
+use Magento\Framework\View\Result\PageFactory;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Vashchak\FilesCatalog\Controller\Adminhtml\Object;
+use Vashchak\FilesCatalog\Model\ResourceModel\ObjectCategory\Collection;
+use Vashchak\FilesCatalog\Model\Uploader;
+use Vashchak\FilesCatalog\Model\UploaderPool;
 
 /**
  * Class Save
  * @package Vashchak\FilesCatalog\Controller\Adminhtml\Object
  */
-class Save extends \Vashchak\FilesCatalog\Controller\Adminhtml\Object
+class Save extends Object
 {
-    const ADMIN_RESOURCE = 'Vashchak_FilesCatalog::helloworld';
+    /**
+     * @var
+     */
     protected $imageUploader;
 
+    /**
+     * @var UploaderPool
+     */
+    protected $uploaderPool;
 
+    /**
+     * @param Registry $registry
+     * @param PageFactory $resultPageFactory
+     * @param Date $dateFilter
+     * @param Context $context
+     * @param UploaderPool $uploaderPool
+     */
     public function __construct(
-        Action\Context $context,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory
+        Context $context,
+        PageFactory $resultPageFactory,
+        UploaderPool $uploaderPool
     ) {
+        $this->uploaderPool = $uploaderPool;
         parent::__construct($context, $resultPageFactory);
     }
 
@@ -35,7 +58,8 @@ class Save extends \Vashchak\FilesCatalog\Controller\Adminhtml\Object
         /** \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
 
-        if (!$model = $this->loadModel()) {
+        $data = $this->getRequest()->getPostValue();
+        if (!($data = $data['object'] ?? []) || !$model = $this->loadModel($data['entity_id'])) {
             return $resultRedirect->setPath('*/*/');
         }
 
@@ -43,13 +67,11 @@ class Save extends \Vashchak\FilesCatalog\Controller\Adminhtml\Object
             $this->messageManager->addSuccess(__('You saved the Object.'));
         }
 
-        $model->setTitle($this->getRequest()->getParam('title'));
-        $model->setDescription($this->getRequest()->getParam('description'));
-        $model->setKeywords($this->getRequest()->getParam('keywords'));
-        $model->setStatus($this->getRequest()->getParam('status'));
-        $model->save();
-
-        $this->saveImages();
+        try {
+            $this->saveObject($model, $data);
+            $this->saveCategory($model->getId(), $data['category']);
+            $this->saveImages($data);
+        } catch (\Throwable $e) {}
 
         $redirect = $resultRedirect->setPath(
             '*/*/edit',
@@ -60,47 +82,57 @@ class Save extends \Vashchak\FilesCatalog\Controller\Adminhtml\Object
         return $redirect;
     }
 
-    protected function saveImages()
+    /**
+     * @param \Vashchak\FilesCatalog\Model\Object $model
+     * @param array $data
+     *
+     * @throws \Throwable
+     */
+    protected function saveObject($model, $data)
     {
-        $data = $this->getRequest()->getPostValue();
+        $model->setTitle($data['title']);
+        $model->setDescription($data['description']);
+        $model->setKeywords($data['keywords']);
+        $model->setStatus($data['status']);
+        $model->save();
+    }
 
-        if ($data) {
-            if (isset($data['image'][0]['name']) && isset($data['image'][0]['tmp_name'])) {
-                $data['image'] = $data['image'][0]['name'];
-                $this->imageUploader = \Magento\Framework\App\ObjectManager::getInstance()->get(
-                    'QaisarSatti\HelloWorld\HelloWorldImageUpload'
-                );
-                $this->imageUploader->moveFileFromTmp($data['image']);
-            } elseif (isset($data['image'][0]['image']) && !isset($data['image'][0]['tmp_name'])) {
-                $data['image'] = $data['image'][0]['image'];
-            } else {
-                $data['image'] = null;
-            }
+    /**
+     * @param $objectId
+     * @param $categoryId
+     */
+    protected function saveCategory($objectId, $categoryId)
+    {
+        /** @var Collection $objectCategoryCollection */
+        $objectCategoryCollection = $this->getCollection(
+            $this->_objectManager->create($this->_objectCategoryCollectionFactoryName),
+            'object_id',
+            $objectId
+        );
+
+        $objectCategoryItem = $objectCategoryCollection->getFirstItem();
+        if ($objectCategoryItem->getCategoryId() !== $categoryId) {
+            $objectCategoryItem->setCategoryId($categoryId);
+            $objectCategoryCollection->save();
         }
+    }
 
-        return;
-        $files = $this->getRequest()->getParam('image');
-        if (!empty($_FILES)) {
-            $fileUploaderFactory = $this->_objectManager->create(
-                '\Magento\MediaStorage\Model\File\UploaderFactory'
-            );
+    /**
+     * @param array $data
+     */
+    protected function saveImages($data)
+    {
+        $avatar = $this->getUploader('images')->uploadFileAndGetName('images', $data);
+        $resume = $this->getUploader('files')->uploadFileAndGetName('files', $data);
+    }
 
-            $filesystem = $this->_objectManager->create(
-                '\Magento\Framework\App\Filesystem\DirectoryList',
-                ['root' => DirectoryList::MEDIA,]
-            );
-
-            $model = $this->getModel();
-
-            $uploader = $fileUploaderFactory->create(['fileId' => 'image']);
-            $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
-            $uploader->setAllowRenameFiles(false);
-            $uploader->setFilesDispersion(false);
-
-            $path = $filesystem->getDirectoryRead(DirectoryList::MEDIA)
-                ->getAbsolutePath('images/');
-
-            $uploader->save($path);
-        }
+    /**
+     * @param $type
+     * @return Uploader
+     * @throws \Exception
+     */
+    protected function getUploader($type)
+    {
+        return $this->uploaderPool->getUploader($type);
     }
 }

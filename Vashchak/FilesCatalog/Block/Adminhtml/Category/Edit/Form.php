@@ -3,6 +3,7 @@
 namespace Vashchak\FilesCatalog\Block\Adminhtml\Category\Edit;
 
 use \Magento\Backend\Block\Widget\Form\Generic;
+use Magento\Framework\App\ObjectManager;
 
 /**
  * Class Form
@@ -84,14 +85,16 @@ class Form extends Generic
             ['name' => 'title', 'label' => __('Title'), 'title' => __('Title'), 'required' => true,]
         );
 
+        $categoryCollection = $this->getCategoryCollection($model->getId() ?: 0);
         $fieldset->addField(
             'parent_id',
-            'text',
-             [
-                'name'      => 'parent',
-                'label'     => __('Parent'),
-                'title'     => __('Parent'),
-                'required'  => false,
+            'select',
+            [
+                'name' => 'parent',
+                'label' => __('Choose parent'),
+                'title' => __('Choose parent'),
+                'required' => false,
+                'values' => $categoryCollection->toOptionArray()
             ]
         );
 
@@ -100,5 +103,29 @@ class Form extends Generic
         $this->setForm($form);
 
         return parent::_prepareForm();
+    }
+
+    /**
+     * @param int|null $id
+     * @return mixed
+     */
+    protected function getCategoryCollection($id)
+    {
+        $category = ObjectManager::getInstance()->get('\Vashchak\FilesCatalog\Model\ResourceModel\Category\CollectionFactory');
+
+        $collection = $category->create()
+            ->addFieldToSelect('*');
+
+        if ($id) {
+            $collection->addFieldToFilter(
+                'entity_id',
+                ['neq' => $id]
+            )->addFieldToFilter(
+                'parent_id',
+                ['neq' => $id]
+            );
+        }
+
+        return $collection;
     }
 }

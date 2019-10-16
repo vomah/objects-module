@@ -2,11 +2,14 @@
 
 namespace Vashchak\FilesCatalog\Model;
 
+use Magento\Framework\DataObject\IdentityInterface;
+use Magento\Framework\Model\AbstractModel;
+
 /**
  * Class ObjectCategory
  * @package Vashchak\FilesCatalog\Model
  */
-class ObjectCategory extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\DataObject\IdentityInterface
+class ObjectCategory extends AbstractModel implements IdentityInterface
 {
     const CACHE_TAG = 'vashchak_filescatalog_object_category';
 

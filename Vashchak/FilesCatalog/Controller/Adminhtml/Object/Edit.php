@@ -44,7 +44,11 @@ class Edit extends \Vashchak\FilesCatalog\Controller\Adminhtml\Object
         }
 
         $id = $model->getId();
-        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);
+        try {
+            $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);
+        } catch (\Throwable $e) {
+            $data = [];
+        }
         if (!empty($data)) {
             $model->setData($data);
         }

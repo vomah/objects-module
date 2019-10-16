@@ -89,7 +89,7 @@ class Edit extends \Magento\Framework\App\Action\Action
         );
         $resultPage->getConfig()->getTitle()->prepend(__('Category'));
         $resultPage->getConfig()->getTitle()
-          ->prepend($model->getId() ? 'Edit category: ' . $model->getId() : __('New Category'));
+          ->prepend($model->getId() ? 'Edit category: ' . $model->getTitle() : __('New Category'));
 
         return $resultPage;
     }

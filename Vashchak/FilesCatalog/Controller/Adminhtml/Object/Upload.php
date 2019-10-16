@@ -2,42 +2,38 @@
 
 namespace Vashchak\FilesCatalog\Controller\Adminhtml\Object;
 
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
 use Magento\Framework\Controller\ResultFactory;
+use Vashchak\FilesCatalog\Model\Uploader;
 
 /**
  * Class Upload
  */
-class Upload extends \Magento\Backend\App\Action
+class Upload extends Action
 {
     /**
-     * Image uploader
-     *
-     * @var \Magento\Catalog\Model\ImageUploader
+     * @var string
      */
-    protected $imageUploader;
+    const ACTION_RESOURCE = 'Vashchak_FilesCatalog::object';
 
     /**
-     * Upload constructor.
+     * uploader
      *
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Catalog\Model\ImageUploader $imageUploader
+     * @var Uploader
+     */
+    protected $uploader;
+
+    /**
+     * @param Context $context
+     * @param Uploader $uploader
      */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Vashchak\FilesCatalog\Model\ImageUploader $imageUploader
+        Context $context,
+        Uploader $uploader
     ) {
         parent::__construct($context);
-        $this->imageUploader = $imageUploader;
-    }
-
-    /**
-     * Check admin permissions for this controller
-     *
-     * @return boolean
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Vashchak_FilesCatalog::edit_object');
+        $this->uploader = $uploader;
     }
 
     /**
@@ -48,7 +44,7 @@ class Upload extends \Magento\Backend\App\Action
     public function execute()
     {
         try {
-            $result = $this->imageUploader->saveFileToTmpDir('object');
+            $result = $this->uploader->saveFileToTmpDir($this->getFieldName());
 
             $result['cookie'] = [
                 'name' => $this->_getSession()->getName(),
@@ -57,11 +53,18 @@ class Upload extends \Magento\Backend\App\Action
                 'path' => $this->_getSession()->getCookiePath(),
                 'domain' => $this->_getSession()->getCookieDomain(),
             ];
-
         } catch (\Exception $e) {
             $result = ['error' => $e->getMessage(), 'errorcode' => $e->getCode()];
         }
 
         return $this->resultFactory->create(ResultFactory::TYPE_JSON)->setData($result);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getFieldName()
+    {
+        return $this->_request->getParam('field');
     }
 }

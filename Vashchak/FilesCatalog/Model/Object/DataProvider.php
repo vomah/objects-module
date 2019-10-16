@@ -26,22 +26,52 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
     }
 
+    /**
+     * @return array
+     */
     public function getData()
     {
         if (isset($this->loadedData)) {
             return $this->loadedData;
         }
 
+        $this->prepareCollection();
         $items = $this->collection->getItems();
 
         $this->loadedData = [];
-        /** @var Object $customer */
+        /** @var Object $object */
         foreach ($items as $object) {
-            $this->loadedData[$object->getId()]['title'] = $object->getTitle();
-            $this->loadedData[$object->getId()]['files'] = '';
+            $id = $object->getId();
+            $this->loadedData[$id]['object']['entity_id'] = $id;
+            $this->loadedData[$id]['object']['status'] = $object->getStatus();
+            $this->loadedData[$id]['object']['title'] = $object->getTitle();
+            $this->loadedData[$id]['object']['description'] = $object->getDescription();
+            $this->loadedData[$id]['object']['keywords'] = $object->getKeywords();
+            $this->loadedData[$id]['object']['category'] = $object->getCategoryId();
+            $this->loadedData[$id]['object']['files'] = '';
         }
 
 
         return $this->loadedData;
+    }
+
+    /**
+     * Add category
+     */
+    protected function prepareCollection()
+    {
+        $select = $this->collection->getSelect()->getPart('where');
+        foreach ($select as &$item) {
+            $item = preg_replace('/`(entity_id)`/', 'main_table.$1', $item);
+        }
+
+        $this->collection->getSelect()
+            ->joinLeft(
+                ['coc' => 'vashchak_files_catalog_object_category'],
+                'main_table.entity_id = coc.object_id',
+                ['coc.category_id']
+            )
+            ->reset('where')
+            ->where(reset($select));
     }
 }
