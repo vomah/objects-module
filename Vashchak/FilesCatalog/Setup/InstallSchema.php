@@ -18,16 +18,14 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
       \Magento\Framework\Setup\SchemaSetupInterface $setup,
       \Magento\Framework\Setup\ModuleContextInterface $context
     ) {
-        $installer = $setup;
+        $setup->startSetup();
 
-        $installer->startSetup();
+        $this->createObjectTable($setup);
+        $this->createCategoryTable($setup);
+        $this->createObjectCategoryTable($setup);
+        $this->createObjectMediaTable($setup);
 
-        $this->createObjectTable($installer);
-        $this->createCategoryTable($installer);
-        $this->createObjectCategoryTable($installer);
-        $this->createObjectMediaTable($installer);
-
-        $installer->endSetup();
+        $setup->endSetup();
     }
 
     /**
@@ -135,7 +133,11 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
                     'parent_id',
                     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
                     10,
-                    [],
+                    [
+                        'default' => 0,
+                        'nullable' => true,
+                        'unsigned' => true,
+                    ],
                     'Parent Category Id'
                 )
                 ->addColumn(

@@ -128,6 +128,37 @@
             </argument>
         </field>
 
+        <field name="custom" component="Vashchak_FilesCatalog/js/select-category" sortOrder="20" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filterOptions" xsi:type="boolean">true</item>
+                    <item name="multiple" xsi:type="boolean">false</item>
+                    <item name="showCheckbox" xsi:type="boolean">true</item>
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+            <settings>
+                <required>true</required>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <elementTmpl>ui/grid/filters/elements/ui-select</elementTmpl>
+                <label translate="true">Select Category</label>
+                <dataScope>category</dataScope>
+                <componentType>field</componentType>
+                <listens>
+                    <link name="${ $.namespace }.${ $.namespace }:responseData">setParsed</link>
+                </listens>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Vashchak\FilesCatalog\Ui\Component\Form\Category\Options"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+
         <field name="images">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
