@@ -35,26 +35,26 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $columns = [
                 'path' => [
                     'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-                    'size' => 255,
+                    'length' => 255,
                     'nullable' => false,
                     'comment' => 'Tree Path',
                 ],
                 'position' => [
                     'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                    'size' => 11,
+                    'length' => 11,
                     'nullable' => false,
                     'comment' => 'Position',
                 ],
                 'level' => [
                     'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                    'size' => 11,
+                    'length' => 11,
                     'default' => 0,
                     'nullable' => false,
                     'comment' => 'Tree Level',
                 ],
                 'children_count' => [
                     'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                    'size' => 11,
+                    'length' => 11,
                     'nullable' => false,
                     'comment' => 'Child Count',
                 ],
@@ -63,23 +63,6 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $connection = $setup->getConnection();
             foreach ($columns as $name => $definition) {
                 $connection->addColumn($tableName, $name, $definition);
-            }
-
-            $newIndexes = [
-                'path',
-                'level',
-            ];
-
-            foreach ($newIndexes as $item) {
-                $connection->addIndex(
-                    $setup->getTable('vashchak_files_catalog_category'),
-                    $setup->getIdxName(
-                        $setup->getTable('vashchak_files_catalog_category'),
-                        [$item],
-                        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
-                    ),
-                    [$item]
-                );
             }
         }
     }
